@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [todos, setTodos] = useState([])
+	const [newTodo, setNewTodo] = useState("")
+	console.log(todos)
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="text-center container m-5">
+			<input className="form-control" placeholder="xxxxx"
+				value={newTodo}
+				onChange={(e) => {
+					setNewTodo(e.target.value);
+				}}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						setTodos([...todos, newTodo]);
+						setNewTodo("");
+					}
+
+					console.dir(e.code)
+				}}
+			/>
+			<ul className="list-group">
+				{todos.length > 0 ? todos.map((todo, index) => {
+					return (
+						<li key={index} class="list-group-item d-flex justify-content-between">
+							{todo}
+							<button className="btn btn-danger ms-auto" onClick={() => setTodos(todos.filter((_, i) => index != i))}>X</button>
+						</li>
+					)
+
+				}) :
+					<li className="list-group-item">No hay tareas</li>
+
+				}
+
+			</ul>
 		</div>
 	);
 };
